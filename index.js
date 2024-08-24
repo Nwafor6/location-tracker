@@ -23,12 +23,12 @@ const sentMail = async (to, subject, html)=>{
     });
 }
 
-app.get('/api-address', async(req, res) => {
+app.get('/', async(req, res) => {
     const apiAddress = req.originalUrl;
     const userIpAddress = req.ip || req.connection.remoteAddress;
     
-    console.log('Request:', req);
-    console.log('User IP Address:', userIpAddress);
+    // console.log('Request:', req);
+    // console.log('User IP Address:', userIpAddress);
     
     res.send(`API Address: ${apiAddress}<br>User IP Address: ${userIpAddress}`);
     await sentMail("obiora369@gmail.com", "User Location", `${userIpAddress}` )
