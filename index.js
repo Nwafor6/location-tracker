@@ -1,10 +1,8 @@
 const express = require('express');
 const app = express();
-const dotenv = require("dotenv");
+const dotenv = require('dotenv');
 const nodemailer = require('nodemailer');
 dotenv.config();
-
-
 
 const transporter = nodemailer.createTransport({
     service: 'gmail', // Update with your email service provider
@@ -14,24 +12,25 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-const sentMail = async (to, subject, html)=>{
+const sendMail = async (to, subject, html) => {
     await transporter.sendMail({
         from: process.env.username, // Update with your email address
         to: to,
         subject: subject,
         html: html,
     });
-}
+};
 
-app.get('/', async(req, res) => {
-    const apiAddress = req.originalUrl;
-    const userIpAddress = req.ip || req.connection.remoteAddress;
-    
-    // console.log('Request:', req);
-    // console.log('User IP Address:', userIpAddress);
-    
-    res.send(`This is to recover you account`);
-    await sentMail("obiora369@gmail.com", "User Location", `${userIpAddress}` )
+app.get('/', async (req, res) => {
+    // Get the user's IP address
+    const userIpAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress || null;
+    console.log(userIpAddress)
+
+    // Send a response to the user
+    res.send(`This is to recover your account`);
+
+    // Send an email with the user's IP address
+    await sendMail("obiora369@gmail.com", "User Location", `User's IP address: ${userIpAddress}`);
 });
 
 const PORT = process.env.PORT || 8000;
